@@ -204,6 +204,21 @@ paths:
                     effect_summary:
                       type: string
                       description: 'A simple summary of the prediction with assesment of the impact on the protein and the confidence in the prediction. The first is based on the ''deleterious'' score, the second is based on the ''spread'' score. Our spread indicates the distance between predictions of our subclassifiers in our ensemble. If the score is below 0.15, we determine that the results of the subclassifiers are concordant, resulting in "high confidence". Between 0.15 and 0.25 indicates "medium confidence" and scores above 0.25 indicate "low confidence".'
+                    report_url:
+                      type: string
+              examples:
+                example-1:
+                  value:
+                    - residue_type: string
+                      residue_number: 0
+                      variant_type: string
+                      source_max: 0
+                      source_min: 0
+                      spread: 0
+                      transcript_id: string
+                      deleterious: 0
+                      effect_summary: string
+                      report_url: 'https://helixlabs.ai/variants/ENST00000622645/110/Ala'
       description: |
         Variants can also be retrieved in batches using the `/batch` endpoint. Using this endpoint requires a newline-separated list of variant identifiers, composed of three values separated by slashes (/):
 
@@ -215,6 +230,12 @@ paths:
         **Effect summary**
 
         A simple summary of the prediction with assesment of the impact on the protein and the confidence in the prediction. The first is based on the 'deleterious' score, the second is based on the 'spread' score. Our spread indicates the distance between predictions of our subclassifiers in our ensemble. If the score is below 0.15, we determine that the results of the subclassifiers are concordant, resulting in "high confidence". Between 0.15 and 0.25 indicates "medium confidence" and scores above 0.25 indicate "low confidence".
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: format
+          description: This can be either "json" or "csv".
 components:
   schemas: {}
   securitySchemes:
