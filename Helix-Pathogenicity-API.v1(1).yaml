@@ -97,6 +97,8 @@ paths:
                     description: 'A simple summary of the prediction with assesment of the impact on the protein and the confidence in the prediction. The first is based on the ''deleterious'' score, the second is based on the ''spread'' score. Our spread indicates the distance between predictions of our subclassifiers in our ensemble. If the score is below 0.15, we determine that the results of the subclassifiers are concordant, resulting in "high confidence". Between 0.15 and 0.25 indicates "medium confidence" and scores above 0.25 indicate "low confidence".'
                   report_url:
                     type: string
+                    description: |
+                      A link to the report page on helixlabs.ai.
               examples:
                 Response example:
                   value:
@@ -206,8 +208,9 @@ paths:
                       description: 'A simple summary of the prediction with assesment of the impact on the protein and the confidence in the prediction. The first is based on the ''deleterious'' score, the second is based on the ''spread'' score. Our spread indicates the distance between predictions of our subclassifiers in our ensemble. If the score is below 0.15, we determine that the results of the subclassifiers are concordant, resulting in "high confidence". Between 0.15 and 0.25 indicates "medium confidence" and scores above 0.25 indicate "low confidence".'
                     report_url:
                       type: string
+                      description: A link to the report page on helixlabs.ai.
               examples:
-                example-1:
+                Example JSON:
                   value:
                     - residue_type: string
                       residue_number: 0
