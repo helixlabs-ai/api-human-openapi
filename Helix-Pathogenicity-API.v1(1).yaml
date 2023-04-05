@@ -95,10 +95,25 @@ paths:
                   effect_summary:
                     type: string
                     description: 'A simple summary of the prediction with assesment of the impact on the protein and the confidence in the prediction. The first is based on the ''deleterious'' score, the second is based on the ''spread'' score. Our spread indicates the distance between predictions of our subclassifiers in our ensemble. If the score is below 0.15, we determine that the results of the subclassifiers are concordant, resulting in "high confidence". Between 0.15 and 0.25 indicates "medium confidence" and scores above 0.25 indicate "low confidence".'
+                  version:
+                    type: string
+                    description: A version identifier.
+                    x-stoplight:
+                      id: jkoylzgws83w7
                   report_url:
                     type: string
                     description: |
                       A link to the report page on helixlabs.ai.
+                  source_scores:
+                    type: object
+                    x-stoplight:
+                      id: afqcty68drqrw
+                    description: An object containing the scores of subclassifiers like MSAHelix.
+                    properties:
+                      <classifier name>:
+                        type: number
+                        x-stoplight:
+                          id: w9gnbw553cdeg
               examples:
                 Response example:
                   value:
@@ -120,6 +135,15 @@ paths:
         Effect summary
         --------------
         A simple summary of the prediction with assesment of the impact on the protein and the confidence in the prediction. The first is based on the 'deleterious' score, the second is based on the 'spread' score. Our spread indicates the distance between predictions of our subclassifiers in our ensemble. If the score is below 0.15, we determine that the results of the subclassifiers are concordant, resulting in "high confidence". Between 0.15 and 0.25 indicates "medium confidence" and scores above 0.25 indicate "low confidence".
+      parameters:
+        - schema:
+            type: string
+            enum:
+              - helix_v5.0.4
+              - helix_v4.4.1
+          in: query
+          description: 'Optional, a version identifier like ''helix_v5.0.4''. If this is not given, the latest prediction is returned.'
+          name: version
     parameters:
       - schema:
           type: string
@@ -206,9 +230,24 @@ paths:
                     effect_summary:
                       type: string
                       description: 'A simple summary of the prediction with assesment of the impact on the protein and the confidence in the prediction. The first is based on the ''deleterious'' score, the second is based on the ''spread'' score. Our spread indicates the distance between predictions of our subclassifiers in our ensemble. If the score is below 0.15, we determine that the results of the subclassifiers are concordant, resulting in "high confidence". Between 0.15 and 0.25 indicates "medium confidence" and scores above 0.25 indicate "low confidence".'
+                    version:
+                      type: string
+                      x-stoplight:
+                        id: iu0154t02fhp5
+                      description: A version identifier.
                     report_url:
                       type: string
                       description: A link to the report page on helixlabs.ai.
+                    '':
+                      type: object
+                      x-stoplight:
+                        id: rlbspooovnucm
+                      description: An object containing the scores of subclassifiers like MSAHelix.
+                      properties:
+                        <classifier name>:
+                          type: number
+                          x-stoplight:
+                            id: ib4kj2d8gw74t
               examples:
                 Example JSON:
                   value:
@@ -222,13 +261,21 @@ paths:
                       deleterious: 0
                       effect_summary: string
                       report_url: 'https://helixlabs.ai/variants/ENST00000622645/110/Ala'
-      description: "Variants can also be retrieved in batches using the `/batch` endpoint. Using this endpoint requires a newline-separated list of variant identifiers, composed of three values separated by slashes (/):\n\n\n- `transcriptId`: A transcript identifier, like those found in the /transcripts endpoint response.\n- `residueNumber`: A number indicating the residue in this transcript. Residue numbers start at 1.\n- `variantType`: The variant you would like to find the information for. Only 3 letter codes are accepted. Case insensitive.\n\n**Effect summary**\n\nA simple summary of the prediction with assesment of the impact on the protein and the confidence in the prediction. The first is based on the 'deleterious' score, the second is based on the 'spread' score. Our spread indicates the distance between predictions of our subclassifiers in our ensemble. If the score is below 0.15, we determine that the results of the subclassifiers are concordant, resulting in \"high confidence\". Between 0.15 and 0.25 indicates \"medium confidence\" and scores above 0.25 indicate \"low confidence\".\n\n**Sample script**\n\nA very simple sample Python script that shows how to use batch retrieval is shown below:\n\n```python\n\nimport requests\n\n# Get access token\ndata = requests.post(\n    \"https://eggwhite.eu.auth0.com/oauth/token\",\n    headers={\"Content-Type\": \"application/json\"},\n    json={\n        \"client_id\": \"<client_id>\",\n        \"client_secret\": \"<client_secret>\",\n        \"audience\": \"predictions.ai.bio-prodict.nl\",\n        \"grant_type\": \"client_credentials\"\n    }\n)\naccess_token = data.json()[\"access_token\"]\n\n# Build variants list\nresidue_number = 1\nvariants = [\n    f\"ENST00000622645/{residue_number}/Ala\", \n    f\"ENST00000622645/{residue_number}/Val\",\n    f\"ENST00000622645/{residue_number}/Pro\"\n]\nvariants = \"\\n\".join(variants)\n\n# Retrieve variant data using an HTTP POST request\nvariant_data = requests.post(\n\t\"https://api.helixlabs.ai/batch\",\n\theaders={\"Authorization\": \"Bearer %s\" % access_token},\n\tdata={\"variants\": variants}\n)\nprint(variant_data.json())\n```\n\nThis script retrieves the required access token and builds a list of variants that will be requested through the API. The POST request is sent using the `requests` library, and the output is displayed.\n**Note**: The access token can be stored and used for 24 hours, it is not necessary to refresh the access token for every request."
+      description: "Variants can also be retrieved in batches using the `/batch` endpoint. Using this endpoint requires a newline-separated list of variant identifiers, composed of three values separated by slashes (/):\n\n\n- `transcriptId`: A transcript identifier, like those found in the /transcripts endpoint response.\n- `residueNumber`: A number indicating the residue in this transcript. Residue numbers start at 1.\n- `variantType`: The variant you would like to find the information for. Only 3 letter codes are accepted. Case insensitive.\n\n**Effect summary**\n\nA simple summary of the prediction with assesment of the impact on the protein and the confidence in the prediction. The first is based on the 'deleterious' score, the second is based on the 'spread' score. Our spread indicates the distance between predictions of our subclassifiers in our ensemble. If the score is below 0.15, we determine that the results of the subclassifiers are concordant, resulting in \"high confidence\". Between 0.15 and 0.25 indicates \"medium confidence\" and scores above 0.25 indicate \"low confidence\".\n\n**Performance tip**\nDue to the internal structure of the Helix database, we recommend that you group requests for the same transcript id and the same position in the same batch. This can be achieved by sorting the variants list. This increases throughput by up to 3x compared to a shuffled list.\n\n**Sample script**\n\nA very simple sample Python script that shows how to use batch retrieval is shown below:\n\n```python\n\nimport requests\n\n# Get access token\ndata = requests.post(\n    \"https://eggwhite.eu.auth0.com/oauth/token\",\n    headers={\"Content-Type\": \"application/json\"},\n    json={\n        \"client_id\": \"<client_id>\",\n        \"client_secret\": \"<client_secret>\",\n        \"audience\": \"predictions.ai.bio-prodict.nl\",\n        \"grant_type\": \"client_credentials\"\n    }\n)\naccess_token = data.json()[\"access_token\"]\n\n# Build variants list\nresidue_number = 1\nvariants = [\n    f\"ENST00000622645/{residue_number}/Ala\", \n    f\"ENST00000622645/{residue_number}/Val\",\n    f\"ENST00000622645/{residue_number}/Pro\"\n]\nvariants = \"\\n\".join(variants)\n\n# Retrieve variant data using an HTTP POST request\nvariant_data = requests.post(\n\t\"https://api.helixlabs.ai/batch\",\n\theaders={\"Authorization\": \"Bearer %s\" % access_token},\n\tdata={\"variants\": variants}\n)\nprint(variant_data.json())\n```\n\nThis script retrieves the required access token and builds a list of variants that will be requested through the API. The POST request is sent using the `requests` library, and the output is displayed.\n**Note**: The access token can be stored and used for 24 hours, it is not necessary to refresh the access token for every request."
       parameters:
         - schema:
             type: string
           in: query
           name: format
           description: This can be either "json" or "csv".
+        - schema:
+            type: string
+            enum:
+              - helix_v5.0.4
+              - helix_v4.4.1
+          in: query
+          name: version
+          description: 'Optional, a version identifier like ''helix_v5.0.4''. If this is not given, the latest prediction is returned.'
 components:
   schemas: {}
   securitySchemes:
