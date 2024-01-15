@@ -14,6 +14,8 @@ info:
 
     The API is secured and you need credentials to be able to use it. We use the industry-standard OAuth2 protocol. For those of you who'd like more information about the ins and outs of OAuth2 please take a look here. Note that using the API is incredibly easy; you don't really need an in-depth understanding of OAuth2 to be able to use this API. This documentation contains all the information you need to get started! 
 
+    Please note, Helix is for Research Use Only - Not for use in diagnostic procedures.
+
     Client access tokens
     --------------------
 
